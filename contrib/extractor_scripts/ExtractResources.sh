@@ -10,7 +10,7 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-## Expected param 1 to be 'a' for all, else ask some questions
+## Expected param 1 to be 'a' for all or auto for automatic, else ask some questions
 
 ## Normal log file (if not overwritten by second param
 LOG_FILE="MaNGOSExtractor.log"
@@ -28,7 +28,7 @@ USE_MMAPS="0"
 USE_MMAPS_OFFMESH="0"
 USE_MMAPS_DELAY=""
 
-if [ "$1" = "a" ]
+if [ "$1" = "a" -o "$1" = "auto" ]
 then
   ## extract all
   USE_AD="1"
@@ -85,7 +85,7 @@ then
 fi
 
 ## MMap Extraction specific
-if [ "$USE_MMAPS" = "1" ]
+if [ "$USE_MMAPS" = "1" -a "$1" != "auto" ]
 then
   ## Obtain number of processes
   echo "How many CPUs should be used for extracting mmaps? (1, 2, 4, 8)"
@@ -163,7 +163,7 @@ fi
 if [ "$USE_VMAPS" = "1" ]
 then
   echo "`date`: Start extraction of vmaps..." | tee -a $LOG_FILE
-  ./vmapExtractor | tee -a $DETAIL_LOG_FILE
+  ./vmap_extractor | tee -a $DETAIL_LOG_FILE
   echo "`date`: Extracting of vmaps finished" | tee -a $LOG_FILE
   mkdir vmaps
   echo "`date`: Start assembling of vmaps..." | tee -a $LOG_FILE
